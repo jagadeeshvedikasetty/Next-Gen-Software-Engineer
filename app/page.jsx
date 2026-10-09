@@ -4,6 +4,7 @@ import { FaGithub, FaExternalLinkAlt, FaCode, FaSun, FaMoon, FaLaptopCode, FaMob
 import { supabase } from '../lib/supabase';
 import { motion } from 'framer-motion';
 
+
 // Custom Typewriter component (Per-Word)
 const TypewriterText = ({ texts, typingDelay = 150, erasingDelay = 100, newTextDelay = 2000 }) => {
   const [currentText, setCurrentText] = useState('');
@@ -11,8 +12,9 @@ const TypewriterText = ({ texts, typingDelay = 150, erasingDelay = 100, newTextD
   const [isDeleting, setIsDeleting] = useState(false);
   
   useEffect(() => {
+    if (!texts || texts.length === 0) return;
     let timeout;
-    const currentFullText = texts[textIndex];
+    const currentFullText = texts[textIndex] || '';
     const words = currentFullText.split(' ');
     const currentWords = currentText.trim() === '' ? [] : currentText.trim().split(' ');
     
@@ -45,12 +47,14 @@ const TypewriterText = ({ texts, typingDelay = 150, erasingDelay = 100, newTextD
   return <span>{currentText}<span className="blink-cursor"></span></span>;
 };
 
+
+
 export default function Home() {
   const [profile, setProfile] = useState(null);
   const [projects, setProjects] = useState([]);
   const [techStack, setTechStack] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isLightMode, setIsLightMode] = useState(false);
+  const [isLightMode, setIsLightMode] = useState(true);
 
   // Contact form state
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
@@ -65,7 +69,10 @@ export default function Home() {
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
+    if (savedTheme === 'dark') {
+      setIsLightMode(false);
+      document.documentElement.classList.remove('light-theme');
+    } else {
       setIsLightMode(true);
       document.documentElement.classList.add('light-theme');
     }
@@ -164,17 +171,16 @@ export default function Home() {
       {/* Hero Section */}
       <section className="hero">
         <motion.div className="container" initial="hidden" animate="visible" variants={staggerContainer}>
-          <motion.div variants={fadeIn} style={{ textAlign: 'center', width: '100%', marginBottom: '3rem', minHeight: '60px' }}>
+          <motion.div variants={fadeIn} className="quote-container" style={{ textAlign: 'center', width: '100%', marginBottom: '3rem' }}>
             <h2 style={{ letterSpacing: '4px', opacity: 0.8 }} className="text-gradient">
-              <TypewriterText 
-                texts={profile?.bio ? profile.bio.split('|').map(q => q.trim()) : [
-                  "WE ARE LIVING IN GREATEST OF TIMES WITH AI",
-                  "WE'RE LIVING IN THE GREATEST ERA OF AI — LET'S BUILD SOMETHING REMARKABLE."
-                ]} 
-                typingDelay={150}
-                erasingDelay={100}
-                newTextDelay={2000}
-              />
+              {profile?.bio && (
+                <TypewriterText 
+                  texts={profile.bio.split('|').map(q => q.trim())} 
+                  typingDelay={150}
+                  erasingDelay={100}
+                  newTextDelay={2000}
+                />
+              )}
             </h2>
           </motion.div>
           {profile?.photo_url && (

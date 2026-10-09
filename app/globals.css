@@ -244,12 +244,14 @@ h1, h2, h3, h4, h5, h6, .text-gradient {
   color: var(--text-primary);
   font-family: var(--font-mono);
   font-size: 1.2rem;
+  font-weight: bold;
   padding: 0.5rem 0;
   outline: none;
 }
 
 .form-input::placeholder {
-  color: rgba(255, 140, 0, 0.4);
+  color: var(--text-secondary);
+  font-weight: bold;
 }
 
 .form-input:focus {
@@ -342,7 +344,15 @@ textarea.form-input {
   color: var(--error-color);
 }
 
+.quote-container {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* -----------------------------
+
    RESPONSIVE DESIGN (MOBILE & TABLET)
 ----------------------------- */
 @media screen and (max-width: 768px) {
@@ -372,6 +382,10 @@ textarea.form-input {
   h2 { font-size: 1.8rem; }
   h3 { font-size: 1.5rem; }
   body { font-size: 1.1rem; }
+
+  .quote-container {
+    min-height: 120px;
+  }
 
   /* Navigation & Hero */
   .hero {
@@ -413,5 +427,9 @@ textarea.form-input {
   .modal-content {
     padding: 1.2rem;
     width: 95%;
+  }
+
+  .quote-container {
+    min-height: 160px;
   }
 }

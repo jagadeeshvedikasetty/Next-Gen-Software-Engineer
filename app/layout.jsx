@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                if (localStorage.getItem('theme') === 'light') {
+                if (localStorage.getItem('theme') !== 'dark') {
                   document.documentElement.classList.add('light-theme');
                 }
               } catch (e) {}
